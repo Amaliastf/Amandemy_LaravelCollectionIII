@@ -14,6 +14,12 @@ Route::post('/product/{product}/delete', [UserController::class, 'deleteProduct'
 Route::get('/admin', [UserController::class, 'admin'])->name('admin');
 Route::put('/admin/update-product/{product}', [UserController::class, 'updateProduct'])->name('update_product');
 Route::get('/admin/list-products', [UserController::class, 'getAdmin'])->name('admin_page');
+Route::get('/add-sample-user', function () {
+    UserController::addSampleUser();
+    return 'Sample user added successfully!';
+});
+Route::get('/merchant', [UserController::class, 'merchant'])->name('merchant');
+
 
 Route::get('/cafe-amandemy', [UserController::class, 'cafe']);
 

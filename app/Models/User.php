@@ -42,4 +42,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+    public function show(User $user)
+    {
+        return view('detail-user', [
+            'user'=>$user
+        ]);
+    }
+    // public static function addSampleUser()
+    // {
+    //     $user = new self();
+    //     $user->id = 1;
+    //     $user->name = 'Admin';
+    //     $user->email = 'adminl@example.com';
+    //     $user->password = \Illuminate\Support\Facades\Hash::make('password');
+    //     $user->save();
+    // }
 }

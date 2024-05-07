@@ -18,6 +18,9 @@
                     <h2 class="text-center fw-bold mt-2">PRODUCTS</h2>
                 </div>
                 <div class="col-md-4 d-flex justify-content-end">
+                    <a href="{{ route('merchant') }}" class="btn btn-primary me-3 h-75 mx-auto">Ke Halaman Merchant</a>
+                </div>
+                <div class="col-md-4 d-flex justify-content-end">
                     <a href="{{ route('admin') }}" class="btn btn-primary me-3 h-75 mx-auto">Ke Halaman Admin</a>
                 </div>
             </div>

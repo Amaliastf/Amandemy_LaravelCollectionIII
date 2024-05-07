@@ -19,4 +19,8 @@ class Product extends Model
         'condition',
         'description',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id'); 
+    }
 }

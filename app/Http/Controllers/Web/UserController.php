@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -42,10 +43,8 @@ class UserController extends Controller
             'description' => 'required',
         ]);
 
-        // Update data produk
         $product->update($request->all());
 
-        // Redirect kembali ke halaman admin
         return redirect()->route('admin')->with('message', 'Berhasil update data');
     }
 
@@ -68,9 +67,9 @@ class UserController extends Controller
 
     public function postRequest(Request $request)
 {
-    // Memeriksa apakah semua kolom terisi
+    
     if ($request->filled(['image', 'name', 'weight', 'price', 'stock', 'condition', 'description'])) {
-        // Menyimpan data produk baru
+        
         Product::create([
             'image' => $request->image,
             'name' => $request->name,
@@ -81,13 +80,13 @@ class UserController extends Controller
             'description' => $request->description,
         ]);
 
-        // Mengembalikan ke halaman admin dengan pesan sukses
+        
         return redirect()->route('admin')->with('message', 'Berhasil menambahkan produk.');
     } else {
-        // Inisialisasi array untuk menyimpan pesan error
+        
         $errors = [];
 
-        // Memeriksa setiap kolom dan menambahkan pesan error khusus jika tidak terisi
+        
         if (!$request->filled('image')) {
             $errors[] = 'Error. Field Gambar wajib diisi.';
         }
@@ -110,16 +109,66 @@ class UserController extends Controller
             $errors[] = 'Error. Field Deskripsi wajib diisi.';
         }
 
-        // Kembalikan ke halaman sebelumnya dengan pesan error yang sesuai
+        
         return redirect()->back()->with('errors', $errors);
     }
 }
 
 
+// public function admin()
+// {
+//     $user = User::find(1);
 
-    public function admin()
-    {
-        $products = Product::all();
-        return view('admin', compact('products'));
-    }
+//     if ($user) {
+//         $products = $user->products;
+
+//         if ($products && $products->isNotEmpty()) {
+//             return view('admin', compact('products'));
+//         } else {
+//             return view('admin')->with('error', 'Belum ada produk yang ditambahkan oleh pengguna ini.');
+//         }
+//     } else {
+//         return view('admin')->with('error', 'Pengguna tidak ditemukan.');
+//     }
+// }
+
+public function admin()
+{
+    $user = User::findOrFail(1); // Mengambil user dengan user_id 1
+
+    $products = $user->products()->get(); // Mendapatkan produk dari user_id 1
+
+    return view('admin', compact('products'));
+}
+
+public function merchant()
+{
+    $user = User::findOrFail(2); // Mengambil user dengan user_id 2
+    $products = $user->products()->get(); // Mendapatkan produk dari user_id 2
+
+    return view('merchant', compact('products')); // Memuat view dan melewatkan data produk
+}
+
+
+
+
+
+
+
+    // public function admin()
+    // {
+    //     $products = Product::all();
+    //     return view('admin', compact('products'));
+    // }
+
+
+
+    // public function store()
+    // {
+    //     $user = User::find(1);
+    //     $product = new Product();
+    //     $product->title = 'Judul Postingan 1';
+    //     $product->content = 'Isi dari postingan 1';
+    //     $product->user_id = $user->id;
+    // }
 }
